@@ -10,6 +10,12 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 3000;
 
+
+// Added new method to audiosearch prototype for random episode
+Audiosearch.prototype.getRandom = function () {
+  return this.get('/random_episode');
+};
+
 const audiosearch = new Audiosearch(process.env.AUDIOSEARCH_APP_ID, process.env.AUDIOSEARCH_SECRET);
 
 app.use((req, res, next) => {
@@ -28,11 +34,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/random', (req, res) => {
-  axios.get('//www.audiosear.ch/api/random_episode')
-  .then(response => {
+  audiosearch.getRandom().then(response => {
     res.send(response);
-  }).catch(err => {
-    console.log(`Error: $(err)`);
+  }).catch(error => {
+    res.send(`Error: ${err}`);
   });
 });
 
