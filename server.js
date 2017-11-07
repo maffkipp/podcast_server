@@ -12,13 +12,27 @@ const port = process.env.PORT || 3000;
 
 const audiosearch = new Audiosearch(process.env.AUDIOSEARCH_APP_ID, process.env.AUDIOSEARCH_SECRET);
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});
+
 
 // Routes
 app.get('/', (req, res) => {
-  audiosearch.searchEpisodes('funny').then(results => {
-    res.send(results);
+  audiosearch.searchEpisodes('funny').then(response => {
+    res.send(response);
   }).catch(error => {
     res.send(`Error: ${err}`);
+  });
+});
+
+app.get('/random', (req, res) => {
+  axios.get('//www.audiosear.ch/api/random_episode')
+  .then(response => {
+    res.send(response);
+  }).catch(err => {
+    console.log(`Error: $(err)`);
   });
 });
 
