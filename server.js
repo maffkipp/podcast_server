@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
   audiosearch.searchEpisodes('funny').then(response => {
     res.send(response);
-  }).catch(error => {
+  }).catch(err => {
     res.send(`Error: ${err}`);
   });
 });
@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 app.get('/random', (req, res) => {
   audiosearch.getRandom().then(response => {
     res.send(response);
-  }).catch(error => {
+  }).catch(err => {
     res.send(`Error: ${err}`);
   });
 });
@@ -44,7 +44,15 @@ app.get('/random', (req, res) => {
 app.get('/categories/:query', (req, res) => {
   audiosearch.searchEpisodes(req.params.query).then(response => {
     res.send(response);
-  }).catch(error => {
+  }).catch(err => {
+    res.send(`Error: ${err}`);
+  });
+});
+
+app.get('/trending', (req, res) => {
+  audiosearch.getTrending().then(response => {
+    res.send(response);
+  }).catch(err => {
     res.send(`Error: ${err}`);
   });
 });
