@@ -41,6 +41,13 @@ app.get('/random', (req, res) => {
   });
 });
 
+app.get('/categories/:query', (req, res) => {
+  audiosearch.searchEpisodes(req.params.query).then(response => {
+    res.send(response);
+  }).catch(error => {
+    res.send(`Error: ${err}`);
+  });
+});
 
 // App Start
 app.listen(port, (err) => {
